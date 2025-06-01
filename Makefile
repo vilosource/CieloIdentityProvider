@@ -9,7 +9,7 @@ MANAGE := $(PYTHON) manage.py
 
 # Project directories
 PROJECT_DIR := .
-APPS_DIRS := cielo_frontend users
+APPS_DIRS := apps/identity
 
 .PHONY: help clean clean-pyc clean-build clean-db install migrate runserver test lint format tarball
 
