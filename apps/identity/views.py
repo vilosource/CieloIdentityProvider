@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth import update_session_auth_hash
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ChangePasswordSerializer
 from .services import AuthenticationService
 
 
@@ -50,4 +51,19 @@ class CurrentUserView(APIView):
     def get(self, request):
         data = UserSerializer(request.user).data
         return Response(data)
+
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ChangePasswordSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data, context={"request": request})
+        if serializer.is_valid():
+            user = request.user
+            user.set_password(serializer.validated_data["new_password1"])
+            user.save()
+            update_session_auth_hash(request, user)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -47,5 +47,15 @@ Returns `{"authenticated": true}` when the session is valid. Otherwise a `403` s
 
 Returns the authenticated user's profile.
 
+### Change Password
+`POST /api/users/change-password`
+
+Body parameters:
+- `current_password`
+- `new_password1`
+- `new_password2`
+
+Returns a `204` status code on success.
+
 Other Django projects can authenticate via these endpoints using the standard session authentication mechanism provided by Django REST Framework.
 
