@@ -1,7 +1,10 @@
 from django.contrib.auth.models import User
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
+
+from .signals import create_default_admin
 
 
 class AuthenticationTests(APITestCase):
@@ -41,4 +44,19 @@ class AuthenticationTests(APITestCase):
         self.client.post(reverse("identity:logout"))
         response = self.client.get(reverse("identity:session"))
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class AdminCreationTests(TestCase):
+    def test_create_default_admin(self):
+        self.assertFalse(User.objects.filter(username="admin").exists())
+        create_default_admin(sender=None)
+        self.assertTrue(User.objects.filter(username="admin").exists())
+
+    def test_create_default_admin_idempotent(self):
+        create_default_admin(sender=None)
+        admin_user = User.objects.get(username="admin")
+        password_hash = admin_user.password
+        create_default_admin(sender=None)
+        admin_user.refresh_from_db()
+        self.assertEqual(password_hash, admin_user.password)
 
