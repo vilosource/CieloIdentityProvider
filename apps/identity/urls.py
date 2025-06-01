@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import LoginView, LogoutView, SessionView, CurrentUserView
+from .views import (
+    LoginView,
+    LogoutView,
+    SessionView,
+    CurrentUserView,
+    ChangePasswordView,
+)
 
 
 app_name = "identity"
@@ -10,5 +16,6 @@ urlpatterns = [
     path("logout", LogoutView.as_view(), name="logout"),
     path("session", SessionView.as_view(), name="session"),
     path("users/me", CurrentUserView.as_view(), name="current_user"),
+    path("users/change-password", ChangePasswordView.as_view(), name="change_password"),
 ]
 
