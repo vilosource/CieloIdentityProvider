@@ -1,0 +1,6 @@
+django
+djangorestframework
+django-extensions
+django-environ
+psycopg2-binary
+pydantic
