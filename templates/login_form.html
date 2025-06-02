@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test /api/login</title>
+</head>
+<body>
+    <h2>Login Test Form</h2>
+    <form id="loginForm" style="display:none;">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit">Login</button>
+    </form>
+    <button id="logoutBtn" style="display:none;">Logout</button>
+    <pre id="result"></pre>
+    <script>
+    async function checkSession() {
+        const resp = await fetch('/api/session/', { credentials: 'same-origin' });
+        if (resp.ok) {
+            const data = await resp.json();
+            if (data.authenticated) {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'inline-block';
+                document.getElementById('result').textContent = 'You are logged in.';
+                return;
+            }
+        }
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('logoutBtn').style.display = 'none';
+        document.getElementById('result').textContent = '';
+    }
+    document.getElementById('loginForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({ username, password })
+        });
+        const result = document.getElementById('result');
+        result.textContent = await response.text();
+        checkSession();
+    };
+    document.getElementById('logoutBtn').onclick = async function() {
+        await fetch('/api/logout/', { method: 'POST', credentials: 'same-origin' });
+        checkSession();
+    };
+    checkSession();
+    </script>
+</body>
+</html>

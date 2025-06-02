@@ -4,3 +4,6 @@ django-extensions
 django-environ
 psycopg2-binary
 pydantic
+django-redis
+drf-spectacular
+django-cors-headers

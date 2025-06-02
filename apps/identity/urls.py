@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from .views import (
     LoginView,
@@ -12,10 +12,10 @@ from .views import (
 app_name = "identity"
 
 urlpatterns = [
-    path("login", LoginView.as_view(), name="login"),
-    path("logout", LogoutView.as_view(), name="logout"),
-    path("session", SessionView.as_view(), name="session"),
-    path("users/me", CurrentUserView.as_view(), name="current_user"),
-    path("users/change-password", ChangePasswordView.as_view(), name="change_password"),
+    re_path(r"^login/?$", LoginView.as_view(), name="login"),
+    re_path(r"^logout/?$", LogoutView.as_view(), name="logout"),
+    re_path(r"^session/?$", SessionView.as_view(), name="session"),
+    re_path(r"^users/me/?$", CurrentUserView.as_view(), name="current_user"),
+    re_path(r"^users/change-password/?$", ChangePasswordView.as_view(), name="change_password"),
 ]
 
