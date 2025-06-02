@@ -8,16 +8,19 @@ This guide explains how to use `CieloIdentityProvider` during development and ho
    ```bash
    pip install -r requirements.txt
    ```
-2. Apply migrations and create the default admin user:
+2. Apply migrations:
    ```bash
    python manage.py migrate
    ```
-   The first migration automatically creates a superuser with credentials `admin` / `admin`.
-3. Start the development server:
+3. Create a superuser (optional):
+   ```bash
+   python manage.py createsuperuser
+   ```
+4. Start the development server:
    ```bash
    python manage.py runserver
    ```
-4. Visit `http://localhost:8000/admin/` and log in with the default credentials to access the admin interface.
+4. Visit `http://localhost:8000/admin/` and log in with your superuser credentials to access the admin interface.
 
 ## API usage
 
