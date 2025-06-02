@@ -67,7 +67,7 @@ migrate:
 
 # Start development server
 runserver:
-	$(MANAGE) runserver
+	$(MANAGE) runserver 0.0.0.0:8002
 
 # Run tests
 test:
