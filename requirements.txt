@@ -7,3 +7,5 @@ pydantic
 django-redis
 drf-spectacular
 django-cors-headers
+djangorestframework-simplejwt>=5.2.0
+PyJWT>=2.6.0

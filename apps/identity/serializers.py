@@ -8,6 +8,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "username", "email", "first_name", "last_name"]
 
 
+class JWTLoginSerializer(serializers.Serializer):
+    """Serializer for JWT login requests"""
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+
 class ChangePasswordSerializer(serializers.Serializer):
     current_password = serializers.CharField(write_only=True)
     new_password1 = serializers.CharField(write_only=True)
